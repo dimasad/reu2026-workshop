@@ -65,6 +65,9 @@ src/my_python_pkg/                   # ROS2 Python Package
 
 ### In a ROS2 Environment
 ```bash
+# Setup ROS2
+source /opt/ros/lyrical/setup.bash
+
 # Build the package
 colcon build
 

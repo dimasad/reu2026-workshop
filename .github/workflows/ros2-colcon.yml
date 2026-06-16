@@ -1,0 +1,36 @@
+name: ROS2 Colcon Build and Test
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    container:
+      image: docker.io/osrf/ros:lyrical-desktop
+    
+    defaults:
+      run:
+        shell: bash
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+      
+      - name: Build with colcon
+        run: |
+          source /opt/ros/lyrical/setup.bash
+          colcon build --symlink-install
+      
+      - name: Test with colcon
+        run: |
+          source install/setup.bash
+          colcon test
+      
+      - name: Show test results
+        if: always()
+        run: |
+          source /opt/ros/lyrical/setup.bash
+          colcon test-result --all --verbose
